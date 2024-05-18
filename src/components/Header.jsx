@@ -4,7 +4,6 @@ export function Header() {
   return (
     <header className={styled.header}>
       <strong>Ignite Feed</strong>
-      <p>teste</p>
     </header>
   );
 }
