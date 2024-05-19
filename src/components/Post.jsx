@@ -1,0 +1,45 @@
+import styled from "./Post.module.css";
+
+export function Post() {
+  return (
+    <article className={styled.post}>
+      <header>
+        <div className={styled.author}>
+          <img
+            className={styled.avatar}
+            src="https://github.com/diego3g.png"
+            alt="avatar picture"
+          />
+          <div className={styled.authorInfo}>
+            <strong>Diego Fernandes</strong>
+            <span>Web Developer</span>
+          </div>
+        </div>
+
+        <time title="11 de Maio" dateTime="2024-05-11 08:13:30">
+          Públicado há 1h
+        </time>
+      </header>
+      <div className={styled.content}>
+        <p>Fala galeraa 👋</p>
+        <p>
+          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
+          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
+        </p>
+        <p>
+          {" "}
+          👉 <a href="#">jane.design/doctorcare</a>
+        </p>
+        <p>
+          <a href="#">#novoprojeto</a>
+        </p>
+        <p>
+          <a href="#">#nlw</a>
+        </p>
+        <p>
+          <a href="#">#rocketseat</a>
+        </p>
+      </div>
+    </article>
+  );
+}
