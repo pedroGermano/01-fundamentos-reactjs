@@ -1,17 +1,27 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+import { useState } from "react";
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
 import styled from "./Post.module.css";
 
 export function Post(props) {
+  const [comments, setComments] = useState(["Post muito bacana"]);
+
   const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "long",
     hour: "2-digit",
     minute: "2-digit",
   }).format(props.publishedAt);
+
+  function handleCreateNewComment(e) {
+    e.preventDefault();
+    const newCommentText = e.target.comment.value;
+    setComments([...comments, newCommentText]);
+    e.target.comment.value = "";
+  }
 
   return (
     <article className={styled.post}>
@@ -42,15 +52,17 @@ export function Post(props) {
         })}
       </div>
 
-      <form className={styled.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styled.commentForm}>
         <strong>Deixe seu feedback</strong>
-        <textarea placeholder="Deixe um comentário" />
+        <textarea name="comment" placeholder="Deixe um comentário" />
         <footer>
           <button type="submit">Publicar</button>
         </footer>
       </form>
       <div className={styled.commentList}>
-        <Comment />
+        {comments.map((comment) => {
+          return <Comment content={comment} />;
+        })}
       </div>
     </article>
   );
