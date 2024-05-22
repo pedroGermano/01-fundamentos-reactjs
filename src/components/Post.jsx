@@ -9,6 +9,8 @@ import styled from "./Post.module.css";
 export function Post(props) {
   const [comments, setComments] = useState(["Post muito bacana"]);
 
+  const [newCommentText, setNewCommentText] = useState("");
+
   const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "long",
@@ -18,9 +20,18 @@ export function Post(props) {
 
   function handleCreateNewComment(e) {
     e.preventDefault();
-    const newCommentText = e.target.comment.value;
     setComments([...comments, newCommentText]);
-    e.target.comment.value = "";
+    setNewCommentText("");
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeleteOne = comments.filter((comment) => {
+      return comment !== commentToDelete;
+    });
+    setComments(commentsWithoutDeleteOne);
   }
 
   return (
@@ -41,10 +52,10 @@ export function Post(props) {
       <div className={styled.content}>
         {props.content.map((line) => {
           if (line.type === "paragraph") {
-            return <p>{line.content}</p>;
+            return <p key={line.content}>{line.content}</p>;
           } else if (line.type === "link") {
             return (
-              <p>
+              <p key={line.content}>
                 <a href="#">{line.content}</a>
               </p>
             );
@@ -54,14 +65,25 @@ export function Post(props) {
 
       <form onSubmit={handleCreateNewComment} className={styled.commentForm}>
         <strong>Deixe seu feedback</strong>
-        <textarea name="comment" placeholder="Deixe um comentário" />
+        <textarea
+          name="comment"
+          onChange={handleNewCommentChange}
+          value={newCommentText}
+          placeholder="Deixe um comentário"
+        />
         <footer>
           <button type="submit">Publicar</button>
         </footer>
       </form>
       <div className={styled.commentList}>
         {comments.map((comment) => {
-          return <Comment content={comment} />;
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />
+          );
         })}
       </div>
     </article>
